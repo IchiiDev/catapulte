@@ -32,13 +32,23 @@ void setup() {
 }
 
 void loop() {
-
+  /*long RangeInCentimeters;
+  RangeInCentimeters = ultrasonic.MeasureInCentimeters();
+  delay(150);
+  if (RangeInCentimeters <= 50 && RangeInCentimeters > 0) {
+    Serial.println("yes");
+  }*/
+  
+ 
    if (digitalRead(SWITCH) == HIGH) {
+     long sensorValue = ultrasonic.MeasureInCentimeters();
+     delay(150);
      int potValue = analogRead(POT);
      int power = map(potValue, 0, 1023, 0, 180);
      servo1.write(power);
 
-     if (ultrasonic.MeasureInCentimeters() <= 200) {
+     if (sensorValue <= 50 && sensorValue > 0) {
+        Serial.println(sensorValue);
         servo2.write(180);
 
         delay(3000);
