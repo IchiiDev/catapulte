@@ -1,24 +1,26 @@
 #include <Servo.h>
 #include "rgb_lcd.h"
-#include "Ultrasonic.h"
 
-int BUTTON = 7;
+int BUTTON1 = 7;
+int BUTTON2 = 2;
+int COMPTEUR = 5;
 int SERVO1 = 4;
 int SERVO2 = 3;
-int SWITCH = 6;
+int SWITCH = 8;
 int POT = 0;
 Servo servo1;
 Servo servo2;
 int buttonState;
 int oldbuttonState;
 rgb_lcd LCD;
-Ultrasonic ultrasonic(2);
 
 void setup() {
   
   pinMode(POT, INPUT);
-  pinMode(BUTTON, INPUT);
+  pinMode(BUTTON1, INPUT);
+  pinMode(BUTTON2, INPUT);
   pinMode(SWITCH, INPUT);
+  pinMode(COMPTEUR, OUTPUT);
   servo1.attach(SERVO1);
   servo2.attach(SERVO2);
   servo1.write(0);
@@ -32,23 +34,15 @@ void setup() {
 }
 
 void loop() {
-  /*long RangeInCentimeters;
-  RangeInCentimeters = ultrasonic.MeasureInCentimeters();
-  delay(150);
-  if (RangeInCentimeters <= 50 && RangeInCentimeters > 0) {
-    Serial.println("yes");
-  }*/
-  
  
    if (digitalRead(SWITCH) == HIGH) {
-     long sensorValue = ultrasonic.MeasureInCentimeters();
      delay(150);
      int potValue = analogRead(POT);
      int power = map(potValue, 0, 1023, 0, 180);
      servo1.write(power);
 
-     if (sensorValue <= 50 && sensorValue > 0) {
-        Serial.println(sensorValue);
+     if (digitalRead(BUTTON2) == HIGH) {
+
         servo2.write(180);
 
         delay(3000);
@@ -62,7 +56,7 @@ void loop() {
    } else {
      setup();
     
-     buttonState = digitalRead(BUTTON);
+     buttonState = digitalRead(BUTTON1);
      if (oldbuttonState != buttonState && buttonState == HIGH)
      {
         int potValue = analogRead(POT);
