@@ -40,8 +40,8 @@ void loop() {
      int potValue = analogRead(POT);
      int power = map(potValue, 0, 1023, 0, 180);
      servo1.write(power);
-
-     if (digitalRead(BUTTON2) == HIGH) {
+     String str = Serial.readStringUntil('\n');
+     if (str == "on") {
 
         servo2.write(180);
 
